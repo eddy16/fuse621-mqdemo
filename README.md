@@ -9,7 +9,7 @@ ENJOY!!!!
 What this demo does is to provide a client that send sql insert commands to activemq brokers. There are four JMS brokers grouped in two Master/Slave settings. By doing this we create two Active/Active groups and each group has an Active/Passive (Master/Slave) configuration.<br/>
 We will also create four camel rout brokers. Two of this brokers will listen to JMS Group 1 and the other two will listen to JMS Group 2. This camel rout brokers will read every insert sql command and execute it on a postgresql database.<br/>
 Here is a diagram showing all this:<br/>
-![Demo Architecture](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/FuseHADemoArq.jpg)
+![Demo Architecture](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/FuseHADemoArq.jpg)
 
 ## Objectives
 
@@ -48,7 +48,7 @@ This demo will include information about several topics wich include:
 
 	- `cd /opt/redhat`
 	- `unzip jboss-fuse-full-6.2.1.redhat-084.zip`<br/>
-    ![Unzip Command](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture1.png)
+    ![Unzip Command](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture1.png)
     
 	- `export FUSE_HOME=/opt/redhat/jboss-fuse-6.2.1.redhat-084`
 
@@ -71,7 +71,7 @@ Before running JBoss Fuse for the first time we need to configure user/password 
 2. Access karaf console:
 	-  `./bin/client -u admin -p admin` 
     <br/>If you get a message **"Failed to get the session"** wait a few seconds and try again. This message means that JBoss Fuse is starting.<br/>
-	![Karaf Console](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture2.png)
+	![Karaf Console](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture2.png)
 
 3. Create a fabric so we can manage all the brokers from a single console:
 	- `fabric:create --clean --wait-for-provisioning  --bind-address localhost --resolver manualip --global-resolver manualip --manual-ip localhost --zookeeper-password admin`<br/><br/>
@@ -79,14 +79,14 @@ Before running JBoss Fuse for the first time we need to configure user/password 
     
 4. Validate that fabric created by running `container-list` on karaf console.
 	<br/>
-	![Container-list command](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture3.png)
+	![Container-list command](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture3.png)
 
 5. Open URL http://localhost:8181 on a web browser and login with user admin and password admin<br/>
-	![Fabric Login](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture4.png)
+	![Fabric Login](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture4.png)
     <br/>
-    ![Fabric Home](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture5.png)
+    ![Fabric Home](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture5.png)
     <br/>
-    ![Fabric Containers](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture6.png)
+    ![Fabric Containers](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture6.png)
 
 # Setup JMS Broker Master/Slave Groups
 
@@ -205,15 +205,15 @@ In this case, what happened is that we create a new profile called **mq-brokers*
 	- `fabric:container-create-child --jvm-opts "-Xmx2048m -Xms2048m" --profile mq-group1 root jms-group1_1`<br/>
 	- `fabric:container-create-child --jvm-opts "-Xmx2048m -Xms2048m" --profile mq-group1 root jms-group1_2`<br/><br/>
     Look how we assign **mq-group1** profile to the containers. Also look how we create two brokers by using the las **2** parameter. <br/>
-    ![Fabric Brokers creation](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture7.png)
+    ![Fabric Brokers creation](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture7.png)
 
 4. Wait until they are created and started
 	- `watch container-list`<br/>
-    ![Fabric Brokers creation](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture8.png)
+    ![Fabric Brokers creation](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture8.png)
 
 5. Check if cluster is started
 	- `cluster-list`<br/>
-    ![Fabric Brokers creation](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture10.png)
+    ![Fabric Brokers creation](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture10.png)
 
 ## Setup JMS Group2 profile and brokers
 
@@ -240,11 +240,11 @@ In this case, what happened is that we create a new profile called **mq-brokers*
 
 4. Wait until they are created and started
 	- `watch container-list`<br/>
-    ![Fabric Brokers creation](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture11.png)
+    ![Fabric Brokers creation](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture11.png)
 
 5. Check if cluster is started
 	- `cluster-list`<br/>
-    ![Fabric Brokers creation](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture12.png)
+    ![Fabric Brokers creation](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture12.png)
 
 # Configure Camel project
 
@@ -263,7 +263,7 @@ There are two projects:
 	- Execute: `mvn clean install fabric8:deploy`. This will compile install into maven and deploy fuse projet into a fuse profile.
 	- Set fabric8 username and password when prompted. User: admin, password: admin
     - Wait for build success<br/>
-    ![Fabric camel deploy](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture13.png)
+    ![Fabric camel deploy](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture13.png)
     
 	When deploy finished you can view the new profile using web console. Go to **Runtime/Manage** tabs and search for **camel-jdbcpoc** profile. 
 
@@ -283,7 +283,7 @@ There are two projects:
 	- `fabric:container-create-child --profile camel-broker1 root jdbcpoc-broker1`
 	- `fabric:container-create-child --profile camel-broker2 root jdbcpoc-broker2`
 	- `watch container-list`
-	![Camel broker 1 and 2 ](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture17.png)
+	![Camel broker 1 and 2 ](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture17.png)
 
 # Testing Inserts
 
@@ -308,7 +308,7 @@ Test HA at JMS Brokers by running the client with 100000 inserts and shutdown on
 	- `fabric:container-create-child --profile camel-broker1 root jdbcpoc-broker3`
  	- `fabric:container-create-child --profile camel-broker2 root jdbcpoc-broker4`
 	- `watch container-list`<br/>
-	![Camel broker 3 and 4 ](https://github.com/igl100/JBossFuseHADemo/blob/master/docs/image/Capture18.png)
+	![Camel broker 3 and 4 ](https://github.com/igl100/fuse621-mqdemo/blob/master/docs/image/Capture18.png)
     
    Now there are two camel brokers listening at messages at port 61617 and two more listenint at port 61618. Review that speed increase on inserts. Look how easy was to create two more camel brokers by using the same profiles we already created.
     
